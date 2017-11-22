@@ -1,0 +1,4 @@
+Import-Package: \
+	org.osgi.service.event;resolution:=optional,\
+	*
+Export-Package: net.lr.ds.optional
