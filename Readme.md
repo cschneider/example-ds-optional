@@ -7,15 +7,15 @@ So you can either split your code in two bundles or have one bundle with an opti
 
 The problem now is how do you refer to an optional service if even the api package is sometimes not present. As an example we take the EventAdmin. A naive approach might look like this:
 
-  @Component
-  class MyComponent {
-    @Reference(cardinality = ReferenceCardinality.OPTIONAL)
-    EventAdmin eventAdmin;
+    @Component
+    class MyComponent {
+      @Reference(cardinality = ReferenceCardinality.OPTIONAL)
+      EventAdmin eventAdmin;
 
-    ...
-    use eventAdmin
-    ...
-  }
+      ...
+      use eventAdmin
+      ...
+    }
 
 Now the problem is that your class depends on the org.osgi.event package that might not be present. So your complete component can not be resolved. You can try to overcome this using Object and loading the class yourself but this code is ugly and error prone.
 
@@ -23,26 +23,26 @@ Now the problem is that your class depends on the org.osgi.event package that mi
 
 So the better solution is to split up your code into two parts:
 
-@Component
-public class MyComponent {
+    @Component
+    public class MyComponent {
 
-    @Reference(cardinality = ReferenceCardinality.OPTIONAL)
-    EventSender sender;
+     @Reference(cardinality = ReferenceCardinality.OPTIONAL)
+     EventSender sender;
 
-    ...
-    use sender and check for null as it might not be injected
-    ...
-}
+      ...
+      use sender and check for null as it might not be injected
+      ...
+   }
 
-@Component
-public class EventAdminSender implements EventSender {
-    @Reference
-    EventAdmin eventAdmin;
+    @Component
+    public class EventAdminSender implements EventSender {
+      @Reference
+      EventAdmin eventAdmin;
 
-    ...
-    use eventAdmin
-    ...
-}
+     ...
+     use eventAdmin
+      ...
+    }
 
 EventSender is an interface in your own bundle that decouples MyComponent from the package that is maybe not present.
 
