@@ -56,18 +56,18 @@ Download apache-karaf-minimal 4.1.3. You need minimal as it does not start event
 
 In karaf do:
 
-  feature:install scr
-  install -s mvn:net.lr.ds.optional/dsopt/1.0.0-SNAPSHOT
-  scr:list
-  message test
+    feature:install scr
+    install -s mvn:net.lr.ds.optional/dsopt/1.0.0-SNAPSHOT
+    scr:list
+    message test
 
 Scr list will show that MessageCommand is satisfied and EventAdminSender is unsatisfied.
 The last command will display "test". So it will only print to stdout but not send to EventAdmin.
 
 Now we install eventadmin and try again:
 
-  feature:install eventAdmin
-  scr:list
-  message test
+    feature:install eventAdmin
+    scr:list
+    message test
 
 Now EventAdminSender will be active and wired to MessageCommand. The last command will print "test" and in a new line "Sent message to EventAdmin". So this shows we can work gracefully with and without EventAdmin without any classloader tricks.
